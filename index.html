@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kaozia — Agent Vocal IA Réceptionniste</title>
+  <meta name="description" content="Kaozia déploie votre réceptionniste IA en 48h. Disponible 24h/24, il prend vos rendez-vous et répond à vos clients à votre place.">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="favicon-128.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       CSS VARIABLES
+    ============================================================ */
+    :root {
+      --bg-start:    #f0f4f8;
+      --bg-end:      #dde8f5;
+      --white:       #ffffff;
+      --navy:        #0f2044;
+      --navy-mid:    #162d5e;
+      --blue:        #2563eb;
+      --blue-light:  #3b82f6;
+      --blue-pale:   #eff6ff;
+      --green:       #22c55e;
+      --text-body:   #374151;
+      --text-muted:  #6b7280;
+      --border:      #e5e7eb;
+      --shadow:      0 4px 24px rgba(15,32,68,0.07);
+      --shadow-lg:   0 12px 48px rgba(15,32,68,0.13);
+      --shadow-xl:   0 20px 72px rgba(15,32,68,0.18);
+      --radius:      18px;
+      --radius-sm:   10px;
+      --radius-xs:   6px;
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(150deg, var(--bg-start) 0%, var(--bg-end) 100%);
+      background-attachment: fixed;
+      color: var(--text-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      height: 70px;
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(240, 244, 248, 0.72);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .navbar-logo {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.04em;
+      text-decoration: none;
+    }
+    .navbar-logo .accent { color: var(--blue); }
+
+    .navbar-cta {
+      display: inline-block;
+      padding: 10px 24px;
+      background: var(--navy);
+      color: #fff;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-radius: 50px;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+    }
+    .navbar-cta:hover {
+      background: var(--blue);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+    }
+    .navbar-cta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+    }
+    .navbar-cta-sub {
+      font-size: 0.68rem;
+      font-weight: 500;
+      opacity: 0.75;
+      letter-spacing: 0.02em;
+    }
+    .navbar-cta-main {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 110px 5% 90px;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    /* Blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+      will-change: transform;
+    }
+    .blob-1 {
+      width: 560px; height: 560px;
+      background: radial-gradient(circle, #93c5fd 0%, #bfdbfe 60%, transparent 100%);
+      opacity: 0.55;
+      top: -140px; left: -160px;
+    }
+    .blob-2 {
+      width: 440px; height: 440px;
+      background: radial-gradient(circle, #a5b4fc 0%, #c7d2fe 60%, transparent 100%);
+      opacity: 0.40;
+      bottom: -60px; right: -120px;
+    }
+    .blob-3 {
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, #dbeafe 0%, #e0f2fe 60%, transparent 100%);
+      opacity: 0.50;
+      top: 45%; left: 58%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+      width: 100%;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 18px;
+      background: rgba(37, 99, 235, 0.09);
+      border: 1px solid rgba(37, 99, 235, 0.22);
+      border-radius: 50px;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.81rem;
+      font-weight: 600;
+      color: var(--blue);
+      margin-bottom: 16px;
+      animation: fadeUp 0.7s ease both;
+    }
+    .badge-dot {
+      width: 7px; height: 7px;
+      background: var(--blue);
+      border-radius: 50%;
+      animation: pulseDot 1.6s infinite ease-in-out;
+    }
+
+    .hero h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(2.3rem, 5.5vw, 3.8rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+      margin-bottom: 12px;
+      animation: fadeUp 0.7s 0.12s ease both;
+    }
+    .hero h1 .accent { color: var(--blue); }
+
+    .hero-subtitle {
+      font-size: 1.08rem;
+      color: var(--text-muted);
+      line-height: 1.72;
+      max-width: 570px;
+      margin: 0 auto 0;
+      animation: fadeUp 0.7s 0.22s ease both;
+    }
+
+    .hero-sectors {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-top: 14px;
+      letter-spacing: 0.02em;
+      animation: fadeUp 0.7s 0.26s ease both;
+    }
+
+    /* ============================================================
+       SOUNDWAVE
+    ============================================================ */
+    .soundwave {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      height: 36px;
+      margin: 18px auto;
+      animation: fadeUp 0.7s 0.28s ease both;
+    }
+
+    .soundwave span {
+      display: block;
+      width: 3px;
+      border-radius: 3px;
+      background: var(--blue);
+      opacity: 0.35;
+      animation: wave 1.4s ease-in-out infinite;
+    }
+
+    .soundwave span:nth-child(1)  { height: 6px;  animation-delay: 0s; }
+    .soundwave span:nth-child(2)  { height: 12px; animation-delay: 0.1s; }
+    .soundwave span:nth-child(3)  { height: 20px; animation-delay: 0.2s; }
+    .soundwave span:nth-child(4)  { height: 28px; animation-delay: 0.3s; }
+    .soundwave span:nth-child(5)  { height: 34px; animation-delay: 0.4s; }
+    .soundwave span:nth-child(6)  { height: 28px; animation-delay: 0.5s; }
+    .soundwave span:nth-child(7)  { height: 36px; animation-delay: 0.25s; }
+    .soundwave span:nth-child(8)  { height: 28px; animation-delay: 0.15s; }
+    .soundwave span:nth-child(9)  { height: 34px; animation-delay: 0.35s; }
+    .soundwave span:nth-child(10) { height: 22px; animation-delay: 0.45s; }
+    .soundwave span:nth-child(11) { height: 28px; animation-delay: 0.2s; }
+    .soundwave span:nth-child(12) { height: 16px; animation-delay: 0.1s; }
+    .soundwave span:nth-child(13) { height: 22px; animation-delay: 0.3s; }
+    .soundwave span:nth-child(14) { height: 10px; animation-delay: 0.05s; }
+    .soundwave span:nth-child(15) { height: 6px;  animation-delay: 0s; }
+
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.4); opacity: 0.25; }
+      50%       { transform: scaleY(1);   opacity: 0.55; }
+    }
+
+    /* ============================================================
+       CALCULATOR
+    ============================================================ */
+    .calculator {
+      background: var(--white);
+      border-radius: 22px;
+      padding: 38px 42px;
+      box-shadow: var(--shadow-xl);
+      max-width: 660px;
+      width: 100%;
+      margin: 0 auto;
+      text-align: left;
+      animation: fadeUp 0.7s 0.34s ease both;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+    }
+
+    .calc-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 26px;
+    }
+    .calc-icon {
+      width: 36px; height: 36px;
+      background: var(--blue-pale);
+      border-radius: var(--radius-xs);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    .calc-title-text {
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .calc-subtitle-text {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .calc-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .calc-field label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .calc-field input {
+      width: 100%;
+      padding: 12px 46px 12px 14px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'Sora', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy);
+      outline: none;
+      background: #f8fafc;
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      -moz-appearance: textfield;
+    }
+    .calc-field input::-webkit-inner-spin-button,
+    .calc-field input::-webkit-outer-spin-button { -webkit-appearance: none; }
+    .calc-field input:focus {
+      border-color: var(--blue);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    }
+
+    .input-unit {
+      position: absolute;
+      right: 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .calc-result {
+      background: var(--navy);
+      border-radius: var(--radius-sm);
+      padding: 22px 26px;
+      position: relative;
+      overflow: hidden;
+    }
+    .calc-result::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(37,99,235,0.18) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .calc-result.highlight {
+      animation: resultPop 0.35s ease;
+    }
+
+    .calc-result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .calc-result-label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.55);
+      font-family: 'Sora', sans-serif;
+    }
+
+    .calc-result-value {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    .calc-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.12);
+      margin: 14px 0;
+    }
+
+    .calc-result-row.annual .calc-result-value {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .calc-conversion {
+      margin-bottom: 22px;
+    }
+
+    .calc-conversion-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .calc-conversion-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .calc-conversion-value {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--blue);
+    }
+
+    .calc-slider-track {
+      position: relative;
+      background: #f1f5f9;
+      border-radius: 50px;
+      border: 2px solid var(--border);
+      overflow: hidden;
+    }
+
+    .calc-slider-fill {
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      background: linear-gradient(90deg, var(--navy), var(--blue));
+      border-radius: 50px;
+      transition: width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+    }
+
+    .calc-slider-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      position: relative;
+      z-index: 1;
+    }
+
+    .calc-step {
+      padding: 10px 0;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      transition: color 0.2s ease;
+      text-align: center;
+    }
+
+    .calc-step.active {
+      color: #fff;
+    }
+
+    .calc-step:hover:not(.active) {
+      color: var(--navy);
+    }
+
+    .calc-conversion-hint {
+      font-size: 0.71rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    .calc-note {
+      font-size: 0.71rem;
+      color: var(--text-muted);
+      margin-top: 14px;
+      text-align: center;
+      font-style: italic;
+    }
+
+    .calc-cta {
+      display: block;
+      margin-top: 16px;
+      padding: 14px;
+      background: var(--blue);
+      color: #fff;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      text-align: center;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .calc-cta:hover {
+      background: var(--navy);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(15, 32, 68, 0.2);
+    }
+
+    /* ============================================================
+       SCROLL INDICATOR
+    ============================================================ */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 38px;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      z-index: 2;
+      animation: fadeUp 0.7s 0.6s ease both;
+    }
+    .scroll-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .scroll-arrow {
+      width: 18px; height: 18px;
+      border-right: 2px solid var(--text-muted);
+      border-bottom: 2px solid var(--text-muted);
+      transform: rotate(45deg);
+      animation: bounce 1.5s infinite ease-in-out;
+    }
+
+    /* ============================================================
+       SHARED SECTION STYLES
+    ============================================================ */
+    .section-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.77rem;
+      font-weight: 700;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(1.9rem, 3.8vw, 2.7rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.18;
+      letter-spacing: -0.028em;
+      margin-bottom: 18px;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 1.04rem;
+      line-height: 1.72;
+      max-width: 530px;
+      margin-bottom: 56px;
+    }
+
+    /* ============================================================
+       SOLUTION SECTION
+    ============================================================ */
+    .solution-section {
+      padding: 110px 5%;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .feature-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 30px 26px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.85);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .feature-icon-wrap {
+      width: 48px;
+      height: 48px;
+      background: rgba(37, 99, 235, 0.08);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .feature-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .feature-desc {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ============================================================
+       ABOUT SECTION
+    ============================================================ */
+    .about-section {
+      padding: 110px 5%;
+      background: var(--white);
+    }
+
+    .about-card {
+      display: flex;
+      align-items: center;
+      gap: 56px;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 52px 56px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      max-width: 900px;
+    }
+
+    .about-photo {
+      flex-shrink: 0;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 8px 32px rgba(15, 32, 68, 0.14);
+      border: 4px solid var(--blue-pale);
+    }
+
+    .about-name {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.025em;
+      margin-bottom: 6px;
+    }
+
+    .about-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--blue);
+      letter-spacing: 0.02em;
+      margin-bottom: 18px;
+    }
+
+    .about-desc {
+      font-size: 1rem;
+      color: #64748b;
+      line-height: 1.75;
+      max-width: 480px;
+    }
+
+    @media (max-width: 768px) {
+      .about-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 36px 28px;
+        gap: 28px;
+      }
+      .about-desc { max-width: 100%; }
+    }
+
+    /* ============================================================
+       HOW IT WORKS
+    ============================================================ */
+    .how-section {
+      background: var(--navy);
+      padding: 110px 5%;
+      position: relative;
+      overflow: hidden;
+    }
+    .how-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(37,99,235,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(99,102,241,0.12) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .how-section .section-inner { position: relative; }
+    .how-section .section-title { color: #fff; }
+    .how-section .section-label { color: #60a5fa; }
+    .how-section .section-desc { color: rgba(255,255,255,0.55); }
+
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+      margin-top: 56px;
+    }
+
+    /* Connecting line */
+    .steps-row::before {
+      content: '';
+      position: absolute;
+      top: 27px;
+      left: calc(12.5% + 27px);
+      right: calc(12.5% + 27px);
+      height: 2px;
+      background: linear-gradient(90deg, rgba(37,99,235,0.5), rgba(99,102,241,0.4), rgba(37,99,235,0.5));
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 18px;
+    }
+
+    .step-number {
+      width: 54px; height: 54px;
+      background: rgba(37, 99, 235, 0.2);
+      border: 2px solid rgba(59, 130, 246, 0.45);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Sora', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #93c5fd;
+      margin-bottom: 22px;
+      position: relative;
+      z-index: 1;
+      transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    }
+    .step:hover .step-number {
+      background: rgba(37, 99, 235, 0.4);
+      border-color: rgba(59, 130, 246, 0.8);
+      transform: scale(1.08);
+    }
+
+    .step-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .step-desc {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.50);
+      line-height: 1.65;
+    }
+
+    /* ============================================================
+       FAQ SECTION
+    ============================================================ */
+    .faq-section {
+      padding: 110px 5%;
+      background: var(--white);
+    }
+
+    .faq-section .section-inner {
+      max-width: 760px;
+    }
+
+    .faq-section .section-desc {
+      margin-bottom: 48px;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-item:last-child { border-bottom: none; }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 22px 28px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: var(--navy);
+      transition: background 0.2s ease;
+    }
+    .faq-question:hover { background: #f8fafc; }
+    .faq-question[aria-expanded="true"] { background: var(--blue-pale); }
+
+    .faq-icon {
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--border);
+      position: relative;
+      transition: background 0.2s ease, transform 0.3s ease;
+    }
+    .faq-icon::before,
+    .faq-icon::after {
+      content: '';
+      position: absolute;
+      background: var(--navy);
+      border-radius: 2px;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .faq-icon::before { width: 10px; height: 2px; }
+    .faq-icon::after  { width: 2px; height: 10px; transition: transform 0.3s ease, opacity 0.3s ease; }
+
+    .faq-question[aria-expanded="true"] .faq-icon {
+      background: var(--blue);
+      transform: rotate(45deg);
+    }
+    .faq-question[aria-expanded="true"] .faq-icon::before,
+    .faq-question[aria-expanded="true"] .faq-icon::after { background: #fff; }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+    .faq-answer.open {
+      max-height: 200px;
+    }
+    .faq-answer p {
+      padding: 0 28px 22px;
+      font-size: 0.93rem;
+      color: var(--text-muted);
+      line-height: 1.72;
+    }
+
+    /* ============================================================
+       CTA SECTION
+    ============================================================ */
+    .cta-section {
+      padding: 110px 5%;
+      text-align: center;
+    }
+    .cta-section .section-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cta-section .section-desc {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .phone-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--white);
+      border-radius: 50px;
+      padding: 12px 22px 12px 14px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(255,255,255,0.9);
+      margin-bottom: 36px;
+    }
+
+    .phone-dot-wrapper {
+      position: relative;
+      width: 12px; height: 12px;
+      flex-shrink: 0;
+    }
+    .phone-dot {
+      width: 12px; height: 12px;
+      background: var(--green);
+      border-radius: 50%;
+      position: absolute;
+      inset: 0;
+    }
+    .phone-dot::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: rgba(34, 197, 94, 0.25);
+      animation: pulseGreen 1.8s infinite ease-in-out;
+    }
+
+    .phone-info { text-align: left; }
+    .phone-status {
+      font-size: 0.73rem;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.03em;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .phone-number {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .cta-pricing {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 15px 34px;
+      background: var(--navy);
+      color: #fff;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 50px;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+    }
+    .btn-primary:hover {
+      background: var(--blue);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 15px 34px;
+      background: transparent;
+      color: var(--navy);
+      font-family: 'Sora', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 50px;
+      text-decoration: none;
+      border: 2px solid rgba(15, 32, 68, 0.25);
+      letter-spacing: 0.01em;
+      transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+    }
+    .btn-secondary:hover {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+      transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--navy);
+      padding: 28px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .footer-logo {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.04em;
+      text-decoration: none;
+    }
+    .footer-logo .accent { color: #60a5fa; }
+
+    .navbar-logo-img {
+      height: 32px;
+      width: auto;
+      display: block;
+    }
+
+    .footer-logo-img {
+      height: 26px;
+      width: auto;
+      display: block;
+      filter: brightness(0) invert(1);
+    }
+
+    .footer-copy {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ============================================================
+       KEYFRAME ANIMATIONS
+    ============================================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(26px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50%       { transform: rotate(45deg) translateY(7px); }
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.75); }
+    }
+
+    @keyframes pulseGreen {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%       { transform: scale(1.8); opacity: 0; }
+    }
+
+    @keyframes resultPop {
+      0%   { background: #1e40af; transform: scale(1.015); }
+      100% { background: var(--navy); transform: scale(1); }
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 900px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+      }
+      .steps-row::before { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      .navbar { padding: 0 20px; }
+      .hero { padding: 100px 20px 90px; }
+      .hero h1 { font-size: 2.2rem; }
+      .hero-subtitle { font-size: 1rem; }
+
+      .calculator { padding: 26px 22px; }
+      .calc-fields { grid-template-columns: 1fr; gap: 14px; }
+
+      .solution-section { padding: 80px 20px; }
+      .how-section { padding: 80px 20px; }
+      .cta-section { padding: 80px 20px; }
+
+      .section-title { font-size: 1.9rem; }
+    }
+
+    @media (max-width: 600px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .steps-row { grid-template-columns: 1fr; gap: 36px; }
+      .cta-buttons { flex-direction: column; align-items: stretch; }
+      .cta-buttons a { text-align: center; justify-content: center; }
+      footer { flex-direction: column; gap: 10px; text-align: center; padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVBAR
+  ============================================================ -->
+  <nav class="navbar">
+    <a href="#"><img src="logo.png" alt="Kaozia" class="navbar-logo-img"></a>
+    <a href="tel:+33221857377" class="navbar-cta">
+      <span class="navbar-cta-sub">Testez notre agent en direct</span>
+      <span class="navbar-cta-main">📞 Appeler Léo</span>
+    </a>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section class="hero">
+    <!-- Blobs décoratifs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <div class="hero-content">
+
+      <!-- Badge animé -->
+      <div class="badge">
+        <span class="badge-dot"></span>
+        Agent vocal IA
+      </div>
+
+      <!-- H1 -->
+      <h1>Ne ratez plus jamais un <span class="accent">appel</span></h1>
+
+      <!-- Sous-titre -->
+      <p class="hero-subtitle">
+        Un agent IA qui répond à vos appels, prend vos rendez-vous et ne laisse jamais un client sans réponse.
+      </p>
+
+      <!-- SECTEURS -->
+      <p class="hero-sectors">Idéal pour : artisans · restaurants · coiffeurs · plombiers · garagistes</p>
+
+      <!-- ONDE SONORE -->
+      <div class="soundwave" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <!-- CALCULATEUR INTERACTIF -->
+      <div class="calculator">
+        <div class="calc-header">
+          <div class="calc-icon">📊</div>
+          <div>
+            <div class="calc-title-text">Calculez ce que vous perdez chaque mois</div>
+            <div class="calc-subtitle-text">Estimez le manque à gagner de vos appels manqués</div>
+          </div>
+        </div>
+
+        <div class="calc-fields">
+          <div class="calc-field">
+            <label>Appels manqués par jour</label>
+            <div class="input-wrapper">
+              <input type="number" id="calls" value="5" min="0" max="9999" inputmode="numeric">
+              <span class="input-unit">appels</span>
+            </div>
+          </div>
+          <div class="calc-field">
+            <label>Valeur moyenne d'une prestation</label>
+            <div class="input-wrapper">
+              <input type="number" id="value" value="150" min="0" max="99999" inputmode="numeric">
+              <span class="input-unit">€</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Taux de conversion -->
+        <div class="calc-conversion">
+          <div class="calc-conversion-header">
+            <label class="calc-conversion-label">Taux de conversion estimé</label>
+            <span class="calc-conversion-value" id="conversionDisplay">50%</span>
+          </div>
+          <div class="calc-slider-track">
+            <div class="calc-slider-fill" id="sliderFill"></div>
+            <div class="calc-slider-steps">
+              <button class="calc-step" data-value="10">10%</button>
+              <button class="calc-step" data-value="20">20%</button>
+              <button class="calc-step active" data-value="30">30%</button>
+              <button class="calc-step" data-value="40">40%</button>
+              <button class="calc-step" data-value="50">50%</button>
+            </div>
+          </div>
+          <p class="calc-conversion-hint">Part des appels manqués qui auraient pu devenir des clients</p>
+        </div>
+
+        <div class="calc-result" id="calcResult">
+          <div class="calc-result-row">
+            <span class="calc-result-label">Chiffre d'affaires non réalisé</span>
+            <span class="calc-result-value" id="monthly">16&nbsp;500&nbsp;€</span>
+          </div>
+          <div class="calc-divider"></div>
+          <div class="calc-result-row annual">
+            <span class="calc-result-label">Soit par an</span>
+            <span class="calc-result-value" id="annual">198&nbsp;000&nbsp;€</span>
+          </div>
+        </div>
+
+        <p class="calc-note">Estimation basée sur 22 jours ouvrés par mois</p>
+        <a href="#contact" class="calc-cta">Récupérer ces revenus →</a>
+      </div>
+
+    </div><!-- /.hero-content -->
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+      <span class="scroll-label">Découvrir</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION SOLUTION
+  ============================================================ -->
+  <section class="solution-section" id="solution">
+    <div class="section-inner">
+      <span class="section-label">Notre solution</span>
+      <h2 class="section-title">Un réceptionniste IA<br>taillé pour votre activité</h2>
+      <p class="section-desc">
+        Fini les appels manqués, les secrétaires débordées et les rendez-vous perdus.
+        Votre agent vocal Kaozia gère tout, 24h/24.
+      </p>
+
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f2044" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2v6h6"/><path d="m22 2-6 6"/><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>
+          </div>
+          <div class="feature-title">Disponible 24h/24, 7j/7</div>
+          <p class="feature-desc">Votre agent répond à chaque appel, même la nuit et le weekend.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f2044" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><path d="M21 14V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8"/><path d="M3 10h18"/><path d="m16 20 2 2 4-4"/></svg>
+          </div>
+          <div class="feature-title">Prise de RDV automatique</div>
+          <p class="feature-desc">Connecté à votre agenda en temps réel. Les créneaux se remplissent sans votre intervention.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f2044" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg>
+          </div>
+          <div class="feature-title">Répond à vos questions</div>
+          <p class="feature-desc">Il connaît votre métier. Tarifs, services, procédures : il répond à vos clients comme si c'était vous.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f2044" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
+          </div>
+          <div class="feature-title">Opérationnel en moins d'une semaine</div>
+          <p class="feature-desc">On s'occupe de tout. Vous n'avez rien à installer, rien à configurer.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f2044" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 8h7"/><path d="M8 12h6"/><path d="M11 16h5"/></svg>
+          </div>
+          <div class="feature-title">Rapports d'appels détaillés</div>
+          <p class="feature-desc">Après chaque appel, vous recevez un résumé complet. Vous savez toujours ce qui se passe.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f2044" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/></svg>
+          </div>
+          <div class="feature-title">Sur-mesure à votre image</div>
+          <p class="feature-desc">Voix, ton, façon de parler : votre agent sonne comme vous, pas comme un robot.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FAQ
+  ============================================================ -->
+  <section class="faq-section" id="faq">
+    <div class="section-inner">
+      <span class="section-label">Questions fréquentes</span>
+      <h2 class="section-title">Tout ce que vous<br>voulez savoir</h2>
+
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Est-ce que mes clients vont savoir qu'ils parlent à une IA ?</span>
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-answer">
+            <p>Votre agent sonne naturel et très difficile à distinguer d'un humain. Mais par obligation légale, il se présente comme un assistant IA en début d'appel. Transparence totale, zéro risque légal pour vous.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Que se passe-t-il si le client veut parler à un vrai humain ?</span>
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-answer">
+            <p>L'agent vous transfère l'appel immédiatement ou prend un message selon vos préférences.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Est-ce que je garde mon numéro de téléphone habituel ?</span>
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-answer">
+            <p>Oui, vos clients continuent d'appeler votre numéro. Rien ne change pour eux.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Combien ça coûte ?</span>
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-answer">
+            <p>Notre offre se décompose en deux parties : des frais de mise en place à partir de 800€, puis un abonnement mensuel à partir de 200€ pour assurer le bon fonctionnement et les ajustements. Contactez-nous pour un devis personnalisé selon votre activité.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Et si l'agent fait une erreur ?</span>
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-answer">
+            <p>Vous recevez un résumé de chaque appel. Vous gardez le contrôle total et on ajuste à tout moment.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Est-ce que c'est compliqué à mettre en place ?</span>
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-answer">
+            <p>Non. On s'occupe de tout lors d'un appel visio de 30 minutes avec vous.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>Est-ce que ça marche pour mon secteur ?</span>
+            <span class="faq-icon"></span>
+          </button>
+          <div class="faq-answer">
+            <p>Kaozia s'adapte à tout type d'activité : coiffeurs, plombiers, médecins, avocats, restaurants...</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABOUT
+  ============================================================ -->
+  <section class="about-section">
+    <div class="section-inner">
+      <span class="section-label">À propos</span>
+      <div class="about-card">
+        <img src="alexandre.jpg" alt="Alexandre Fargeas" class="about-photo">
+        <div class="about-text">
+          <div class="about-name">Alexandre Fargeas</div>
+          <div class="about-title">Fondateur de Kaozia</div>
+          <p class="about-desc">
+            Spécialiste en agents vocaux IA, je déploie des solutions sur mesure pour les artisans et commerçants qui ne veulent perdre aucun client. Je m'occupe personnellement de chaque projet, du déploiement au suivi.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA FINALE
+  ============================================================ -->
+  <section class="cta-section" id="contact">
+    <div class="section-inner">
+      <span class="section-label">Commencer maintenant</span>
+      <h2 class="section-title">Votre agent vocal est<br>prêt à travailler pour vous</h2>
+      <p class="section-desc">
+        Contactez-nous dès aujourd'hui. Réponse sous 24h. Déploiement en moins d'une semaine.
+      </p>
+
+      <!-- Pastille verte avec numéro -->
+      <div class="phone-badge">
+        <div class="phone-dot-wrapper">
+          <div class="phone-dot"></div>
+        </div>
+        <div class="phone-info">
+          <span class="phone-status">Notre agent Léo est disponible</span>
+          <span class="phone-number">+33 2 21 85 73 77</span>
+        </div>
+      </div>
+
+      <!-- Boutons -->
+      <p class="cta-pricing">À partir de 800€ de mise en place · 200€/mois</p>
+
+      <div class="cta-buttons">
+        <a href="tel:+33221857377" class="btn-primary">📞 Appeler maintenant</a>
+        <a href="mailto:alexandre@kaozia.com" class="btn-secondary">✉️ Nous écrire</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <a href="#"><img src="logo.png" alt="Kaozia" class="footer-logo-img"></a>
+    <span class="footer-copy">© 2025 Kaozia — Tous droits réservés.</span>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT — CALCULATEUR
+  ============================================================ -->
+  <script>
+    // FAQ accordéon
+    (function () {
+      var questions = document.querySelectorAll('.faq-question');
+      questions.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var expanded = btn.getAttribute('aria-expanded') === 'true';
+          // Ferme tous les autres
+          questions.forEach(function (b) {
+            b.setAttribute('aria-expanded', 'false');
+            b.nextElementSibling.classList.remove('open');
+          });
+          // Ouvre celui cliqué (sauf s'il était déjà ouvert)
+          if (!expanded) {
+            btn.setAttribute('aria-expanded', 'true');
+            btn.nextElementSibling.classList.add('open');
+          }
+        });
+      });
+    })();
+
+    (function () {
+      var callsInput       = document.getElementById('calls');
+      var valueInput       = document.getElementById('value');
+      var monthlyEl        = document.getElementById('monthly');
+      var annualEl         = document.getElementById('annual');
+      var resultBox        = document.getElementById('calcResult');
+      var conversionDisplay = document.getElementById('conversionDisplay');
+      var sliderFill       = document.getElementById('sliderFill');
+      var steps            = document.querySelectorAll('.calc-step');
+
+      var conversionRate   = 30; // valeur par défaut
+
+      // Mapping valeur → largeur du fill
+      var fillMap = { 10: '20%', 20: '40%', 30: '60%', 40: '80%', 50: '100%' };
+
+      function setConversion(val) {
+        conversionRate = val;
+        conversionDisplay.textContent = val + '%';
+        sliderFill.style.width = fillMap[val];
+        steps.forEach(function (btn) {
+          btn.classList.toggle('active', parseInt(btn.dataset.value) === val);
+        });
+        updateCalc();
+      }
+
+      function updateCalc() {
+        var calls   = parseFloat(callsInput.value) || 0;
+        var val     = parseFloat(valueInput.value) || 0;
+        var monthly = calls * val * 22 * (conversionRate / 100);
+        var annual  = monthly * 12;
+
+        monthlyEl.textContent = monthly.toLocaleString('fr-FR') + '\u00a0€';
+        annualEl.textContent  = annual.toLocaleString('fr-FR')  + '\u00a0€';
+
+        resultBox.classList.remove('highlight');
+        void resultBox.offsetWidth;
+        resultBox.classList.add('highlight');
+      }
+
+      steps.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          setConversion(parseInt(btn.dataset.value));
+        });
+      });
+
+      callsInput.addEventListener('input', updateCalc);
+      valueInput.addEventListener('input', updateCalc);
+
+      // Init
+      setConversion(30);
+    })();
+  </script>
+
+</body>
+</html>

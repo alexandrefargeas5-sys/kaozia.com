@@ -1,0 +1,100 @@
+
+PROMPT – GÉNÉRER UN SITE VITRINE HTML AVEC CALCULATEUR INTERACTIF
+==================================================================
+
+Tu es un expert en design web et en développement frontend. Je veux que tu crées un site vitrine complet en un seul fichier HTML (HTML + CSS + JS intégrés).
+
+---
+
+CONTEXTE DE L'ENTREPRISE
+-------------------------
+- Nom : Kaozia
+- Activité : Agence IA qui vend des agents vocaux réceptionniste IA
+- Produit / service proposé : Agents vocaux qui prenne des rendez-vous et répondent aux questions. 
+- Numéro de téléphone : +33221857377
+- Email de contact : alexandre@kaozia.com
+
+---
+
+DESIGN
+------
+- Couleurs : fond gris clair dégradé (#f0f4f8 → #dde8f5), blanc pour les cartes, bleu marine (#0f2044) pour les titres et les boutons, bleu (#2563eb) pour les accents
+- Typographie : police Sora (Google Fonts) pour les titres et badges, Inter pour le corps de texte
+- Style : épuré, moderne, sobre, professionnel. Pas d'effets surchargés.
+- La navbar est fixe en haut avec effet glassmorphism (backdrop-filter: blur)
+- Des blobs colorés flous en arrière-plan de la section hero pour donner de la profondeur
+
+---
+
+STRUCTURE DE LA PAGE (dans cet ordre)
+--------------------------------------
+
+1. NAVBAR fixe
+   - Logo à gauche : [NOM] avec la dernière lettre ou syllabe en bleu
+   - Bouton CTA à droite : "Nous contacter" → redirige vers l'email
+
+2. SECTION HERO (pleine hauteur)
+   - Badge animé en haut : [TEXTE COURT ex. "Agent vocal IA"]
+   - Titre H1 accrocheur avec un mot clé en bleu : [TITRE PRINCIPAL]
+   - Sous-titre court qui explique la valeur ajoutée
+   - CALCULATEUR INTERACTIF (voir détail ci-dessous)
+   - Indicateur de scroll vers le bas
+
+3. CALCULATEUR INTERACTIF (intégré dans le hero)
+   - Fond blanc, bords arrondis, ombre portée
+   - Deux champs de saisie numérique côte à côte :
+     * Champ 1 : [LIBELLÉ DE LA VARIABLE 1] (ex. "Appels manqués par jour") — unité : [UNITÉ 1]
+     * Champ 2 : [LIBELLÉ DE LA VARIABLE 2] (ex. "Valeur moyenne d'une prestation") — unité : [UNITÉ 2]
+   - Résultat automatique mis à jour en temps réel dans un encadré bleu marine :
+     * Formule : [VARIABLE 1] × [VARIABLE 2] × [MULTIPLICATEUR] = RÉSULTAT MENSUEL
+     * Affiche aussi le résultat annuel (× 12)
+     * Animation de highlight jaune quand le résultat change
+
+4. SECTION SOLUTION
+   - Label de section en bleu
+   - Titre H2
+   - Description courte
+   - Grille de 6 cartes features (3 colonnes) :
+     Chaque carte contient : icône emoji, titre, description courte
+     [LISTE TES 6 POINTS FORTS ICI]
+
+5. SECTION "COMMENT ÇA MARCHE" (fond bleu marine)
+   - 4 étapes numérotées en cercle
+   - Ligne horizontale décorative entre les étapes
+   [LISTE TES 4 ÉTAPES ICI]
+
+6. SECTION CTA FINALE
+   - Titre + description
+   - Pastille verte animée avec le numéro de téléphone (indique que l'agent est disponible maintenant)
+   - Bouton 1 : "Appeler" → href="tel:[NUMÉRO]"
+   - Bouton 2 : "Nous écrire" → href="mailto:[EMAIL]"
+
+7. FOOTER
+   - Logo à gauche
+   - Mention copyright à droite
+
+---
+
+COMPORTEMENT JAVASCRIPT
+------------------------
+- Le calculateur doit se recalculer à chaque frappe dans les deux champs (événement "input")
+- Les nombres s'affichent avec séparateur de milliers français (toLocaleString('fr-FR'))
+- Animation CSS de highlight (couleur jaune temporaire + scale) sur le résultat à chaque changement
+- Valeurs par défaut dans les champs : [VALEUR PAR DÉFAUT 1] et [VALEUR PAR DÉFAUT 2]
+
+---
+
+CONTRAINTES TECHNIQUES
+-----------------------
+- Tout dans un seul fichier index.html (pas de fichiers externes sauf Google Fonts via CDN)
+- CSS variables pour toutes les couleurs
+- Responsive mobile (breakpoint à 768px) : grille en 1 colonne, inputs en colonne
+- Animations CSS : fadeUp sur les éléments du hero (animation-delay échelonné), bounce sur la flèche de scroll, pulse sur la pastille verte
+- Pas de frameworks JS externes
+- Pas de formulaires HTML (utiliser des liens mailto: et tel: directement)
+
+---
+
+RÉSULTAT ATTENDU
+----------------
+Un fichier index.html complet, prêt à déployer sur GitHub Pages, sans aucune dépendance externe sauf Google Fonts. Le code doit être propre, commenté si nécessaire, et fonctionner directement en ouvrant le fichier dans un navigateur.
