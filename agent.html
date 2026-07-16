@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notre agent vocal en action — Kaozia</title>
+  <meta name="description" content="Écoutez un exemple d'appel géré par l'agent vocal IA de Kaozia et découvrez toutes ses qualités : disponibilité 24/7, ton naturel, gestion des interruptions et plus.">
+
+  <!-- Aperçu de lien (LinkedIn, WhatsApp, email...) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kaozia.com/agent.html">
+  <meta property="og:title" content="Notre agent vocal en action — Kaozia">
+  <meta property="og:description" content="Écoutez un exemple d'appel géré par l'agent vocal IA de Kaozia et découvrez toutes ses qualités.">
+  <meta property="og:image" content="https://kaozia.com/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Notre agent vocal en action — Kaozia">
+  <meta name="twitter:description" content="Écoutez un exemple d'appel géré par l'agent vocal IA de Kaozia et découvrez toutes ses qualités.">
+  <meta name="twitter:image" content="https://kaozia.com/og-image.png">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+  <link rel="icon" type="image/png" sizes="128x128" href="favicon-128.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-start:    #f0f4f8;
+      --bg-end:      #dde8f5;
+      --white:       #ffffff;
+      --navy:        #0f2044;
+      --navy-mid:    #162d5e;
+      --blue:        #2563eb;
+      --blue-light:  #3b82f6;
+      --blue-pale:   #eff6ff;
+      --green:       #22c55e;
+      --text-body:   #374151;
+      --text-muted:  #6b7280;
+      --border:      #e5e7eb;
+      --shadow:      0 4px 24px rgba(15,32,68,0.07);
+      --shadow-lg:   0 12px 48px rgba(15,32,68,0.13);
+      --shadow-xl:   0 20px 72px rgba(15,32,68,0.18);
+      --radius:      18px;
+      --radius-sm:   10px;
+      --radius-xs:   6px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(150deg, var(--bg-start) 0%, var(--bg-end) 100%);
+      background-attachment: fixed;
+      color: var(--text-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(26px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* NAVBAR (identique à la page d'accueil) */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      height: 70px;
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(240, 244, 248, 0.72);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+    }
+    .navbar-logo-img { height: 32px; width: auto; display: block; }
+    .navbar-links { display: flex; align-items: center; gap: 26px; }
+    .navbar-link {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.01em;
+      padding: 8px 4px;
+      text-decoration: none;
+      display: inline-block;
+      transition: color 0.2s ease;
+    }
+    .navbar-link:hover { color: var(--blue); }
+    .navbar-link.active { color: var(--blue); }
+
+    .navbar-cta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+      padding: 10px 24px;
+      background: var(--navy);
+      color: #fff;
+      font-family: 'Sora', sans-serif;
+      border-radius: 50px;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+    }
+    .navbar-cta:hover {
+      background: var(--blue);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+    }
+    .navbar-cta-sub { font-size: 0.68rem; font-weight: 500; opacity: 0.75; letter-spacing: 0.02em; }
+    .navbar-cta-main { font-size: 0.9rem; font-weight: 700; }
+
+    .icon-inline { width: 1em; height: 1em; flex-shrink: 0; vertical-align: -0.1em; }
+    .icon-invert { filter: brightness(0) invert(1); }
+
+    /* EN-TÊTE DE PAGE */
+    .page-header {
+      padding: 150px 5% 60px;
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 18px;
+      background: rgba(37, 99, 235, 0.09);
+      border: 1px solid rgba(37, 99, 235, 0.22);
+      border-radius: 50px;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.81rem;
+      font-weight: 600;
+      color: var(--blue);
+      margin-bottom: 16px;
+      animation: fadeUp 0.7s ease both;
+    }
+    .badge-dot { width: 7px; height: 7px; background: var(--blue); border-radius: 50%; }
+    .page-header h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.18;
+      letter-spacing: -0.028em;
+      margin-bottom: 16px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .page-header p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.65;
+      animation: fadeUp 0.7s 0.18s ease both;
+    }
+
+    /* LECTEUR AUDIO */
+    .audio-section {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 5% 90px;
+      animation: fadeUp 0.7s 0.26s ease both;
+    }
+    .agent-audio-player {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 24px 28px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+    }
+    .audio-play-btn {
+      flex-shrink: 0;
+      width: 58px;
+      height: 58px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(37,99,235,0.35);
+      transition: transform 0.15s ease;
+    }
+    .audio-play-btn:hover { transform: scale(1.06); }
+    .audio-play-btn svg { width: 22px; height: 22px; }
+    .audio-play-btn .icon-pause { display: none; }
+    .audio-play-btn.is-playing .icon-play { display: none; }
+    .audio-play-btn.is-playing .icon-pause { display: block; }
+
+    .audio-demo-info { flex: 1; min-width: 0; }
+    .audio-demo-title {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .audio-progress-track {
+      position: relative;
+      width: 100%;
+      height: 7px;
+      background: var(--blue-pale);
+      border-radius: 999px;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .audio-progress-fill {
+      position: absolute;
+      top: 0; left: 0; height: 100%;
+      width: 0%;
+      background: var(--blue);
+      border-radius: 999px;
+    }
+    .audio-demo-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* QUALITÉS */
+    .qualities-section { padding: 0 5% 110px; }
+    .section-inner { max-width: 1080px; margin: 0 auto; text-align: center; }
+    .section-label {
+      display: inline-block;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.77rem;
+      font-weight: 700;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(1.9rem, 3.8vw, 2.6rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.18;
+      letter-spacing: -0.028em;
+      margin-bottom: 18px;
+    }
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 1.04rem;
+      line-height: 1.72;
+      max-width: 560px;
+      margin: 0 auto 56px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      text-align: left;
+    }
+    .feature-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 30px 26px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.85);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .feature-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .feature-icon-wrap {
+      width: 48px;
+      height: 48px;
+      background: rgba(37, 99, 235, 0.08);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+    .feature-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.97rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .feature-desc { font-size: 0.87rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* CTA */
+    .cta-section { padding: 0 5% 110px; text-align: center; }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 15px 34px;
+      background: var(--navy);
+      color: #fff;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 50px;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+    }
+    .btn-primary:hover { background: var(--blue); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 15px 34px;
+      background: transparent;
+      color: var(--navy);
+      font-family: 'Sora', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 50px;
+      text-decoration: none;
+      border: 2px solid rgba(15, 32, 68, 0.25);
+      letter-spacing: 0.01em;
+      transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+    }
+    .btn-secondary:hover { background: var(--navy); color: #fff; border-color: var(--navy); transform: translateY(-2px); }
+    .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* FOOTER */
+    footer {
+      background: var(--navy);
+      padding: 28px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-logo-img { height: 26px; width: auto; display: block; filter: brightness(0) invert(1); }
+    .footer-copy { font-size: 0.78rem; color: rgba(255,255,255,0.35); }
+
+    @media (max-width: 768px) {
+      .navbar { padding: 0 12px; }
+      .navbar-link { font-size: 0.6rem; padding: 4px 2px; white-space: nowrap; }
+      .navbar-links { gap: 6px; }
+      .navbar-cta { padding: 8px 10px; }
+      .navbar-cta-sub { display: none; }
+      .navbar-cta-main { font-size: 0.62rem; }
+      .navbar-cta-main img { width: 0.8em; }
+      .page-header { padding: 130px 20px 50px; }
+      .agent-audio-player { padding: 18px 20px; gap: 14px; }
+    }
+    @media (max-width: 700px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      footer { flex-direction: column; gap: 10px; text-align: center; padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html"><img src="logo.png" alt="Kaozia" class="navbar-logo-img"></a>
+    <div class="navbar-links">
+      <a href="index.html" class="navbar-link">Notre agent</a>
+      <a href="agent.html" class="navbar-link active">Découvrir l'agent</a>
+    </div>
+    <a href="tel:+33221857377" class="navbar-cta">
+      <span class="navbar-cta-sub">Testez notre agent en direct</span>
+      <span class="navbar-cta-main"><img src="phone-incoming.svg" alt="" class="icon-inline icon-invert"> Tester notre agent démo</span>
+    </a>
+  </nav>
+
+  <!-- EN-TÊTE -->
+  <header class="page-header">
+    <div class="badge"><span class="badge-dot"></span> Agent vocal IA</div>
+    <h1>Découvrez votre agent vocal en action</h1>
+    <p>Écoutez un exemple d'appel géré de bout en bout par l'IA, et retrouvez ci-dessous toutes les qualités qui font la différence.</p>
+  </header>
+
+  <!-- LECTEUR AUDIO -->
+  <section class="audio-section">
+    <div class="agent-audio-player">
+      <button class="audio-play-btn" id="audioPlayBtn" type="button" aria-label="Écouter un exemple d'appel">
+        <svg class="icon-play" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="icon-pause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+      </button>
+      <div class="audio-demo-info">
+        <span class="audio-demo-title">Écoutez un exemple d'appel géré par l'IA</span>
+        <div class="audio-progress-track" id="audioProgressTrack">
+          <div class="audio-progress-fill" id="audioProgressFill"></div>
+        </div>
+        <div class="audio-demo-meta">
+          <span id="audioCurrentTime">0:00</span>
+          <span id="audioDuration">1:13</span>
+        </div>
+      </div>
+      <audio id="audioDemoEl" src="call-demo.mp3" preload="none"></audio>
+    </div>
+  </section>
+
+  <!-- QUALITÉS -->
+  <section class="qualities-section">
+    <div class="section-inner">
+      <span class="section-label">Notre agent</span>
+      <h2 class="section-title">Toutes les qualités de votre agent vocal</h2>
+      <p class="section-desc">Ce qui fait qu'un appelant ne devine jamais qu'il parle à une IA.</p>
+
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f2044" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2v6h6"/><path d="m22 2-6 6"/><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>
+          </div>
+          <div class="feature-title">Disponible 24h/24, 7j/7</div>
+          <p class="feature-desc">Votre agent répond à chaque appel, jour et nuit, week-ends et jours fériés compris. Aucun appel ne reste sans réponse.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f2044" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+          </div>
+          <div class="feature-title">Voix et ton naturels</div>
+          <p class="feature-desc">Une voix chaleureuse et fluide, difficile à distinguer d'un humain, adaptée au ton de votre activité.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap"><img src="zap.svg" alt="" style="width:24px;height:24px;"></div>
+          <div class="feature-title">Réponse instantanée, sans latence</div>
+          <p class="feature-desc">L'agent répond sans délai perceptible, sans blanc gênant qui pourrait trahir une IA au téléphone.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap"><img src="message-circle-more.svg" alt="" style="width:24px;height:24px;"></div>
+          <div class="feature-title">Automatisation des messages</div>
+          <p class="feature-desc">À la fin de chaque appel, un SMS récapitulatif est envoyé automatiquement avec toutes les infos utiles.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap"><img src="sliders-horizontal.svg" alt="" style="width:24px;height:24px;"></div>
+          <div class="feature-title">Gestion naturelle du temps de parole</div>
+          <p class="feature-desc">L'agent sait quand parler et quand laisser la parole, pour une conversation fluide, sans jamais couper l'appelant.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap"><img src="square-chart-gantt.svg" alt="" style="width:24px;height:24px;"></div>
+          <div class="feature-title">Gestion des interruptions</div>
+          <p class="feature-desc">Si l'appelant coupe la parole, l'agent s'adapte immédiatement et reprend la conversation sans perdre le fil.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap"><img src="calendar-check-2.svg" alt="" style="width:24px;height:24px;"></div>
+          <div class="feature-title">Demande de répétition si besoin</div>
+          <p class="feature-desc">En cas d'incompréhension, l'agent demande poliment de répéter plutôt que de deviner ou de bloquer l'appel.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f2044" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          </div>
+          <div class="feature-title">Autocorrection en temps réel</div>
+          <p class="feature-desc">Si l'agent fait une erreur ou mal interprète une information, il se corrige immédiatement pendant l'appel.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-buttons">
+      <a href="tel:+33221857377" class="btn-primary"><img src="phone-incoming.svg" alt="" class="icon-inline icon-invert"> Appeler la démo maintenant</a>
+      <a href="index.html#contact" class="btn-secondary">Prendre contact</a>
+    </div>
+  </section>
+
+  <footer>
+    <a href="index.html"><img src="logo.png" alt="Kaozia" class="footer-logo-img"></a>
+    <span class="footer-copy">© 2026 Kaozia — Tous droits réservés.</span>
+  </footer>
+
+  <script>
+    (function () {
+      var playBtn   = document.getElementById('audioPlayBtn');
+      var audioEl   = document.getElementById('audioDemoEl');
+      var track     = document.getElementById('audioProgressTrack');
+      var fill      = document.getElementById('audioProgressFill');
+      var curTimeEl = document.getElementById('audioCurrentTime');
+      var durEl     = document.getElementById('audioDuration');
+
+      function formatTime(sec) {
+        if (!isFinite(sec)) return '0:00';
+        var m = Math.floor(sec / 60);
+        var s = Math.floor(sec % 60);
+        return m + ':' + (s < 10 ? '0' : '') + s;
+      }
+
+      playBtn.addEventListener('click', function () {
+        if (audioEl.paused) {
+          audioEl.play();
+        } else {
+          audioEl.pause();
+        }
+      });
+
+      audioEl.addEventListener('play',  function () { playBtn.classList.add('is-playing'); });
+      audioEl.addEventListener('pause', function () { playBtn.classList.remove('is-playing'); });
+      audioEl.addEventListener('ended', function () { playBtn.classList.remove('is-playing'); });
+
+      audioEl.addEventListener('loadedmetadata', function () {
+        durEl.textContent = formatTime(audioEl.duration);
+      });
+
+      audioEl.addEventListener('timeupdate', function () {
+        var pct = audioEl.duration ? (audioEl.currentTime / audioEl.duration) * 100 : 0;
+        fill.style.width = pct + '%';
+        curTimeEl.textContent = formatTime(audioEl.currentTime);
+      });
+
+      track.addEventListener('click', function (e) {
+        var rect = track.getBoundingClientRect();
+        var ratio = (e.clientX - rect.left) / rect.width;
+        if (audioEl.duration) audioEl.currentTime = ratio * audioEl.duration;
+      });
+    })();
+  </script>
+</body>
+</html>

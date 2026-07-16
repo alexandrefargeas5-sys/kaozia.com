@@ -126,6 +126,28 @@
       font-weight: 700;
     }
 
+    .navbar-link {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.01em;
+      padding: 8px 4px;
+      text-decoration: none;
+      display: inline-block;
+      transition: color 0.2s ease;
+    }
+    .navbar-link:hover { color: var(--blue); }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
     /* ============================================================
        HERO
     ============================================================ */
@@ -1130,7 +1152,13 @@
     }
 
     @media (max-width: 768px) {
-      .navbar { padding: 0 20px; }
+      .navbar { padding: 0 12px; }
+      .navbar-link { font-size: 0.6rem; padding: 4px 2px; white-space: nowrap; }
+      .navbar-links { gap: 6px; }
+      .navbar-cta { padding: 8px 10px; }
+      .navbar-cta-sub { display: none; }
+      .navbar-cta-main { font-size: 0.62rem; }
+      .navbar-cta-main img { width: 0.8em; }
       .hero { padding: 100px 20px 90px; }
       .hero h1 { font-size: 2.2rem; }
       .hero-subtitle { font-size: 1rem; }
@@ -1177,6 +1205,72 @@
       animation: fadeUp 0.7s 0.34s ease both;
     }
 
+    /* ============================================================
+       LECTEUR AUDIO — EXEMPLE D'APPEL
+    ============================================================ */
+    .agent-audio-player {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 18px;
+      background: var(--bg-start);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      text-align: left;
+    }
+    .audio-play-btn {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(37,99,235,0.35);
+      transition: transform 0.15s ease;
+    }
+    .audio-play-btn:hover { transform: scale(1.06); }
+    .audio-play-btn svg { width: 18px; height: 18px; }
+    .audio-play-btn .icon-pause { display: none; }
+    .audio-play-btn.is-playing .icon-play { display: none; }
+    .audio-play-btn.is-playing .icon-pause { display: block; }
+
+    .audio-demo-info { flex: 1; min-width: 0; }
+    .audio-demo-title {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 7px;
+    }
+    .audio-progress-track {
+      position: relative;
+      width: 100%;
+      height: 6px;
+      background: var(--blue-pale);
+      border-radius: 999px;
+      cursor: pointer;
+      overflow: hidden;
+    }
+    .audio-progress-fill {
+      position: absolute;
+      top: 0; left: 0; height: 100%;
+      width: 0%;
+      background: var(--blue);
+      border-radius: 999px;
+    }
+    .audio-demo-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
     /* ============================================================
        CALCULATEUR — PANNEAU LATÉRAL
     ============================================================ */
@@ -1272,6 +1366,128 @@
       max-width: 100%;
       animation: none;
     }
+
+    /* ============================================================
+       PANNEAU LATÉRAL "NOTRE AGENT"
+    ============================================================ */
+    .agent-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,32,68,0.45);
+      z-index: 950;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .agent-overlay.open { opacity: 1; pointer-events: all; }
+
+    .agent-panel {
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 640px;
+      max-width: 92vw;
+      background: var(--white);
+      z-index: 1000;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+      padding: 28px 24px 48px;
+      box-shadow: -8px 0 48px rgba(15,32,68,0.18);
+    }
+    .agent-panel.open { transform: translateX(0); }
+
+    .agent-panel-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+    .agent-panel-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+    .agent-panel-close {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: var(--border);
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease, color 0.2s ease;
+      flex-shrink: 0;
+    }
+    .agent-panel-close:hover { background: var(--navy); color: #fff; }
+
+    .agent-audio-showcase {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .agent-audio-col {
+      flex: 1 1 260px;
+      min-width: 0;
+    }
+    .agent-tag-col {
+      flex: 1 1 220px;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .agent-tag {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      background: var(--bg-start);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+    .agent-panel.open .agent-tag { opacity: 1; transform: translateY(0); }
+    .agent-panel.open .agent-tag:nth-child(1) { transition-delay: 0.08s; }
+    .agent-panel.open .agent-tag:nth-child(2) { transition-delay: 0.13s; }
+    .agent-panel.open .agent-tag:nth-child(3) { transition-delay: 0.18s; }
+    .agent-panel.open .agent-tag:nth-child(4) { transition-delay: 0.23s; }
+    .agent-panel.open .agent-tag:nth-child(5) { transition-delay: 0.28s; }
+    .agent-panel.open .agent-tag:nth-child(6) { transition-delay: 0.33s; }
+    .agent-panel.open .agent-tag:nth-child(7) { transition-delay: 0.38s; }
+    .agent-panel.open .agent-tag:nth-child(8) { transition-delay: 0.43s; }
+
+    .agent-tag-icon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(37, 99, 235, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .agent-tag-icon img,
+    .agent-tag-icon svg { width: 16px; height: 16px; }
+    .agent-tag-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    @media (max-width: 560px) {
+      .agent-audio-col, .agent-tag-col { flex: 1 1 100%; }
+    }
   </style>
 </head>
 <body>
@@ -1281,6 +1497,10 @@
   ============================================================ -->
   <nav class="navbar">
     <a href="#"><img src="logo.png" alt="Kaozia" class="navbar-logo-img"></a>
+    <div class="navbar-links">
+      <button class="navbar-link" id="agentTab">Notre agent</button>
+      <a href="agent.html" class="navbar-link">Découvrir l'agent</a>
+    </div>
     <a href="tel:+33221857377" class="navbar-cta">
       <span class="navbar-cta-sub">Testez notre agent en direct</span>
       <span class="navbar-cta-main"><img src="phone-incoming.svg" alt="" class="icon-inline icon-invert"> Tester notre agent démo</span>
@@ -1581,6 +1801,84 @@
   </div>
 
   <!-- ============================================================
+       PANNEAU LATÉRAL "NOTRE AGENT"
+  ============================================================ -->
+  <div class="agent-overlay" id="agentOverlay"></div>
+  <div class="agent-panel" id="agentPanel">
+    <div class="agent-panel-top">
+      <span class="agent-panel-title">Écoutez votre agent en action</span>
+      <button class="agent-panel-close" id="agentPanelClose">✕</button>
+    </div>
+    <div class="agent-audio-showcase">
+
+      <div class="agent-audio-col">
+        <div class="agent-audio-player">
+          <button class="audio-play-btn" id="audioPlayBtn" type="button" aria-label="Écouter un exemple d'appel">
+            <svg class="icon-play" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="icon-pause" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <div class="audio-demo-info">
+            <span class="audio-demo-title">Écoutez un exemple d'appel géré par l'IA</span>
+            <div class="audio-progress-track" id="audioProgressTrack">
+              <div class="audio-progress-fill" id="audioProgressFill"></div>
+            </div>
+            <div class="audio-demo-meta">
+              <span id="audioCurrentTime">0:00</span>
+              <span id="audioDuration">1:13</span>
+            </div>
+          </div>
+          <audio id="audioDemoEl" src="call-demo.mp3" preload="none"></audio>
+        </div>
+      </div>
+
+      <div class="agent-tag-col">
+
+        <div class="agent-tag">
+          <div class="agent-tag-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f2044" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2v6h6"/><path d="m22 2-6 6"/><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg></div>
+          <span class="agent-tag-label">Disponible 24h/24, 7j/7</span>
+        </div>
+
+        <div class="agent-tag">
+          <div class="agent-tag-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f2044" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
+          <span class="agent-tag-label">Voix et ton naturels</span>
+        </div>
+
+        <div class="agent-tag">
+          <div class="agent-tag-icon"><img src="zap.svg" alt=""></div>
+          <span class="agent-tag-label">Réponse instantanée, sans latence</span>
+        </div>
+
+        <div class="agent-tag">
+          <div class="agent-tag-icon"><img src="message-circle-more.svg" alt=""></div>
+          <span class="agent-tag-label">Automatisation des messages</span>
+        </div>
+
+        <div class="agent-tag">
+          <div class="agent-tag-icon"><img src="sliders-horizontal.svg" alt=""></div>
+          <span class="agent-tag-label">Gestion naturelle du temps de parole</span>
+        </div>
+
+        <div class="agent-tag">
+          <div class="agent-tag-icon"><img src="square-chart-gantt.svg" alt=""></div>
+          <span class="agent-tag-label">Gestion des interruptions</span>
+        </div>
+
+        <div class="agent-tag">
+          <div class="agent-tag-icon"><img src="calendar-check-2.svg" alt=""></div>
+          <span class="agent-tag-label">Demande de répétition si besoin</span>
+        </div>
+
+        <div class="agent-tag">
+          <div class="agent-tag-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0f2044" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></div>
+          <span class="agent-tag-label">Autocorrection en temps réel</span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
        JAVASCRIPT — CALCULATEUR
   ============================================================ -->
   <script>
@@ -1682,6 +1980,89 @@
         if (e.key === 'Escape') closePanel();
       });
       if (ctaLink) ctaLink.addEventListener('click', closePanel);
+
+      // Ferme le calculateur si le panneau "Notre agent" s'ouvre
+      tab.addEventListener('click', function () {
+        if (window.closeAgentPanel) window.closeAgentPanel();
+      });
+
+      window.closeCalcPanel = closePanel;
+    })();
+
+    // Panneau latéral "Notre agent"
+    (function () {
+      var tab      = document.getElementById('agentTab');
+      var panel    = document.getElementById('agentPanel');
+      var overlay  = document.getElementById('agentOverlay');
+      var closeBtn = document.getElementById('agentPanelClose');
+
+      function openPanel() {
+        panel.classList.add('open');
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+      function closePanel() {
+        panel.classList.remove('open');
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      tab.addEventListener('click', function () {
+        if (window.closeCalcPanel) window.closeCalcPanel();
+        openPanel();
+      });
+      overlay.addEventListener('click', closePanel);
+      closeBtn.addEventListener('click', closePanel);
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closePanel();
+      });
+
+      window.closeAgentPanel = closePanel;
+    })();
+
+    // Lecteur audio : exemple d'appel
+    (function () {
+      var playBtn   = document.getElementById('audioPlayBtn');
+      var audioEl   = document.getElementById('audioDemoEl');
+      var track     = document.getElementById('audioProgressTrack');
+      var fill      = document.getElementById('audioProgressFill');
+      var curTimeEl = document.getElementById('audioCurrentTime');
+      var durEl     = document.getElementById('audioDuration');
+
+      function formatTime(sec) {
+        if (!isFinite(sec)) return '0:00';
+        var m = Math.floor(sec / 60);
+        var s = Math.floor(sec % 60);
+        return m + ':' + (s < 10 ? '0' : '') + s;
+      }
+
+      playBtn.addEventListener('click', function () {
+        if (audioEl.paused) {
+          audioEl.play();
+        } else {
+          audioEl.pause();
+        }
+      });
+
+      audioEl.addEventListener('play',  function () { playBtn.classList.add('is-playing'); });
+      audioEl.addEventListener('pause', function () { playBtn.classList.remove('is-playing'); });
+      audioEl.addEventListener('ended', function () { playBtn.classList.remove('is-playing'); });
+
+      audioEl.addEventListener('loadedmetadata', function () {
+        durEl.textContent = formatTime(audioEl.duration);
+      });
+
+      audioEl.addEventListener('timeupdate', function () {
+        var pct = audioEl.duration ? (audioEl.currentTime / audioEl.duration) * 100 : 0;
+        fill.style.width = pct + '%';
+        curTimeEl.textContent = formatTime(audioEl.currentTime);
+      });
+
+      track.addEventListener('click', function (e) {
+        var rect = track.getBoundingClientRect();
+        var ratio = (e.clientX - rect.left) / rect.width;
+        if (audioEl.duration) audioEl.currentTime = ratio * audioEl.duration;
+      });
     })();
   </script>
 
