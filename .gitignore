@@ -1,0 +1,10 @@
+# Documents personnels / business — pas liés au site, ne doivent pas être publics
+KAOZIA - Document de référence (1).txt
+Prospection débrief (1).txt
+
+# Carte de visite (script + fichiers générés) — outil perso, pas le site
+generate_card.py
+business_card_output/
+
+# Enregistrement audio brut source — la version compressée (call-demo.mp3) est déjà utilisée par le site
+kaozia appel test.mov
